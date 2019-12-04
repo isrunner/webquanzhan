@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./node_modules/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		// 全局组件 (名字 内容对象options)
+		// 组件通信 父传子
+		// 先给父组件中绑定自定义属性 在子组件中使用props 接收数据，可以在子组件中任意使用
+		Vue.component('ZiVben',{
+			props:['msgs'],
+			methods:{
+				zifangfa(){
+					console.log(this.msgs)
+					// $emit(父自定义事件名 ，消息传回的值) 一定要通过$emit去触发自定事件
+					this.$emit('jieshouzi',this.msgs+'子传回')
+				}
+			},
+			template:`
+			<div>{{msgs}}<button @click="zifangfa">我是子按钮</button></div>
+			`	
+		})
+		// 子传父
+		// 在父组件绑定自定义事件 
+		// 在子组件中触发原生的事件 在事件函数中使用$emit触发自定义事件并返回值
+		Vue.component('Vben',{
+			data(){
+				return{
+					msg:'我是父数据'
+				}
+			},
+			methods:{
+				fufanfa(val){
+					console.log(val)
+				}
+			},
+			template:`<div>
+			<button>按钮</button>
+			<ZiVben :msgs="msg" @jieshouzi="fufanfa"/>
+			</div>
+			`	
+		})
+		new  Vue({
+			el:'#app',
+			data(){
+				return{
+					
+				}
+			},
+			components:{
+				
+			},
+			template:`<div>
+			<Vben/>
+
+			</div>`
+		})
+	</script>
+</html>

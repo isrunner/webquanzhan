@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./node_modules/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- vue 内置组件 <keep-alive></keep-alive>
+			 能在组件的切换过程中 将状态保留在内存中，防止重复渲染dom
+			 -->
+			<App v-if="isbuer"></App>
+			<keep-alive>
+				<App v-if="isbuer"></App>
+			</keep-alive>
+			<button type="button" @click="xiaohui">xiaohui</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var App = {
+			data(){
+				return{
+					msg:123
+				}
+			},
+			template:`
+			<div>
+				<p>{{msg}}</p>
+				<p>{{msg}}</p>
+				<button type="button" @click="gaibians">gaibian</button>
+			</div>
+			`,
+			methods:{
+				gaibians(){
+					this.msg = this.msg + 'haha'
+				}
+			},
+			beforeCreate() {
+				// 组件创建之前
+				console.log(this)
+				console.log(this.msg)
+			},
+			created(){
+				//组件创建之后(这边才能开始拿到数据)
+				//使用该组件就会调用created方法 （可以请求操作后端数据 渲染视图）
+				console.log(this.msg)
+			},
+			beforeMount(){
+				//挂载数据到 dom 之前调用 vue渲染前的dom
+				console.log(document.getElementById('app'))
+			},
+			mounted(){
+				//挂载数据 到dom 之后会调用 vue渲染后的dom
+				console.log(document.getElementById('app'))
+			},
+			beforeUpdate(){
+				//在更新 dom 之前调用该钩子 （可以获取原始的dom）
+				console.log(document.getElementById('app').innerHTML)
+			},
+			updated(){
+				//在更新之后调用该 钩子 （可以获取最新的dom）
+				console.log(document.getElementById('app').innerHTML)
+			},
+			beforeDestroy(){
+				//销毁之前
+				console.log('销毁前')
+			},
+			destroyed(){
+				//销毁之后
+				console.log('销毁后')
+			},
+			activated(){
+				console.log('组件被激活')
+			},
+			deactivated(){
+				console.log('组件被停用')
+			}
+		}
+		new Vue({
+			el:'#app',
+			data(){
+				return{
+					isbuer:true
+				}
+			},
+			components:{
+				App
+			},
+			methods:{
+				xiaohui(){
+					this.isbuer = !this.isbuer
+				}
+			}
+			
+		})
+	</script>
+</html>

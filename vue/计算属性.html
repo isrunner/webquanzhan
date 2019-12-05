@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./node_modules/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.active{
+				background: #00FFFF;
+				color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div id="">
+				<p>当前年龄：</p>
+				<p v-text="getAges"></p>
+			</div>
+			
+			<ul>
+				<li v-for="(item,index) in arr" :class="{active:currentIndex == index}" @click="dianji(index)">
+				<p>名字：{{item.name}}</p>
+				<p>年龄：{{item.age}}</p>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript">
+		new Vue({
+			el:"#app",
+			data(){
+				return{
+					arr:[{
+						'name':'ming',
+						'age':18
+					},{
+						'name':'hong',
+						'age':19
+					},{
+						'name':'dong',
+						'age':20
+					}],
+					currentIndex:0
+					
+				}
+			},
+			computed:{
+				// 计算属性默认只有getter
+				// 需要 setter 也可以定义
+				// getAges(){
+				// 	return this.arr[this.currentIndex].age
+				// }
+				getAges:{
+					set:function(newv){
+						console.log(newv)
+						this.currentIndex = newv
+					},
+					get:function(){
+						// 监听改变就渲染
+						return this.arr[this.currentIndex].age
+					}
+				}
+			},
+			methods:{
+				dianji(index){
+					// 这里是直接修改属性
+					// console.log(index)
+					// this.currentIndex = index
+					// 如果想用set方法就要这么写
+					// 默认调用的是get方法，赋值是set方法
+					console.log(this.getAges)
+					this.getAges = index
+				}
+			}
+		})
+	</script>
+</html>

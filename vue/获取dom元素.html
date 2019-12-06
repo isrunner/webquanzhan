@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./node_modules/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<button type="button" ref='btns'>我是按钮</button>
+			<button type="button" ref='btns'>我是按钮1</button>
+			<button type="button" ref='btns1'>我是按钮2</button>
+		
+			<input type="text" v-show="idshow"  ref="input" value="" />
+		</div>
+	</body>
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			data:{
+				idshow:false
+			},
+			created(){
+				console.log(this.$refs.btn)
+			},
+			mounted(){
+				// 如果给标签绑定了ref属性
+				// 使用this.$refs.xxx获取原生的js对象
+				// ref属性值不能重名(如果名字相同 后面覆盖前面)
+				console.log(this.$refs.btns)
+				console.log(this.$refs.btns1)
+				// 如果是给组件绑定 ref属性,那么获取的就是当前的组件对象
+				
+				// 一开始让input 获取焦点
+				// $nextTick() 在dom更新循环结束之后执行的回调函数
+				//在修改数据之后使用此方法 在回调中获取更新后的dom
+				this.idshow = true;//(重新渲染dom)
+				console.log(this.$refs.input)
+				// this.$refs.input.focus();
+				// 这边可以获取对象 倒是执行不到(要获取更新后的dom进行绑定)
+				this.$nextTick(function(){
+					console.log(this.$refs.input)
+					this.$refs.input.focus();
+				})
+				
+			}
+		})
+	</script>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./node_modules/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		路由的实现
+		1传统开发方式 url改变后,立刻发起请求响应整个页面,有可能
+		资源过多,传统开发会让页面出现白屏
+		2spa 单页面应用
+		原理:锚点值发生改变后 不会立刻发生请求
+		而是某个合适的时机,发起ajax请求,页面局部渲染
+		优点:页面不立刻跳转 用户体验好
+		<div id="app">
+			
+		</div>
+		
+		<a href="#/login">登录</a>
+		<a href="#/registe">注册</a>
+	</body>
+	<script type="text/javascript">
+		window.onhashchange=function(){
+			console.log(location.hash)
+			// 根据hash 值的改变 切换对应数据
+		}
+		new Vue({
+			el:'#app',
+			data(){
+				return{
+					
+				}
+			},
+			methods:{
+				
+			}
+		})
+	</script>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./node_modules/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./node_modules/vue-router/dist/vue-router.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 
+			 引入路由模块 会有两个全局组件
+			 router-link---a
+			 to ----href
+			 router-view----路由匹配组件的出口
+			 -->
+			<router-link to="/login">登录</router-link>
+			<router-link to="/register">注册</router-link>
+			<router-view></router-view>
+		</div>
+	</body>
+	<script type="text/javascript">
+		// 1 引入vue
+		// 2引入 vue-router
+		// 3让vue使用该VueRouter创建
+		// Vue.use(VueRouter)  (当vue 和vuerouter 是局部的时候使用 把他挂载到全局)
+		// 现在哦我们引入的是全局的所以不需要
+		var Login = {
+			template:`<div>
+			<router-link :to="{name:'yuwenaa',params:{id:'yuwens'}}">语文</router-link>
+			<router-link :to="{name:'yuwenaa',params:{id:'shuxues'}}">数学</router-link>
+			<router-view></router-view>
+			</div>
+			</div>`
+		}
+		var Register = {
+			template:`<div>注册页面</div>`
+		}
+		var yuwenaa = {
+			template:`<div>语文{{msg}}</div>`,
+			data(){
+				return{
+					msg:'woshi'
+				}
+			},
+			// 响应路由参数的变化
+			// 提醒一下，当使用路由参数时，例如从 /user/foo 导航到 /user/bar，原来的组件实例会被复用。
+			// 因为两个路由都渲染同个组件，比起销毁再创建，复用则显得更加高效。
+			// 不过，这也意味着组件的生命周期钩子不会再被调用。
+			
+			// 复用组件时，想对路由参数的变化作出响应的话，
+			// 你可以简单地 watch (监测变化) $route 对象：
+			created(){
+				console.log(this.$route)
+			},
+			// 在组件内部监听路由信息的变化
+			watch:{
+				'$route':function(to,from){
+					console.log(to);
+					console.log(from)
+					this.msg = to.params.id
+					// 这边可以根据 动态路由请求响应数据
+					
+				}
+				
+			}
+		}
+		
+		// 创建 router对象
+		var router = new VueRouter({
+			// 4配置路由对象 (所有路由 匹配规则)
+			routes:[
+				{
+					// 不用#号 hash默认加
+					path:'/login',
+					component:Login,
+					children:[
+						{
+							// 动态路由参数 以冒号开头
+							name:'yuwenaa',
+							path:'/login/:id',
+							component:yuwenaa
+						}
+					]
+				},
+				{
+					// 不用#号 hash默认加
+					path:'/register',
+					component:Register
+				}
+			]
+		})
+		new Vue({
+			el:'#app',
+			data:{
+				
+			},
+			components:{
+				
+			},
+			// 5路由对象要交给实例化对象 管理
+			router:router,
+			
+		})
+	</script>
+</html>

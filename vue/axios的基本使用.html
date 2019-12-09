@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./node_modules/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./node_modules/axios/dist/axios.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<button type="button" @click="sends">qingqiu</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		Vue.prototype.$axios = axios;
+		new Vue({
+			el:'#app',
+			data:{
+				
+			},
+			methods:{
+				sends(){
+					// console.log(axios)
+					// console.log(this.$axios)
+					this.$axios.get('./axiosdata.json',{prams{id:'1'})
+					.then(function(res){
+						console.log(res)
+					})
+					.catch(function(err){
+						console.log(err)
+						
+					})
+					
+				}
+			}
+		})
+	</script>
+</html>
